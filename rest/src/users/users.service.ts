@@ -1,61 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { UsersRepository } from './repasitory';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private usersModel: Model<User>) {}
+  constructor(
+    @Inject('UserRepasitory') private readonly userRepasitory: UsersRepository,
+  ) {}
 
   async create(CreateUser: CreateUserDto): Promise<User | string> {
-    const currentUsename = await this.usersModel.find({
-      username: CreateUser.username,
-    });
-    if (currentUsename.length) {
-      return 'username alredy exsist!';
-    }
-    const newUser = await this.usersModel.create(CreateUser);
-    await newUser.save();
-    return newUser;
+    return this.userRepasitory.create(CreateUser);
   }
 
   async findAll(): Promise<User[]> {
-    const allUser = await this.usersModel.find();
-    return allUser;
+    return this.userRepasitory.findAll();
   }
 
   async findOne(id: string): Promise<User | string> {
-    const findUser = await this.usersModel.findById(id);
-    if (!Object.keys(findUser).length) {
-      return 'user not found';
-    }
-    return findUser;
+    return this.userRepasitory.findOne(id);
   }
 
   async update(
     id: string,
     updateUser: UpdateUserDto,
   ): Promise<UpdateUserDto | string> {
-    const findUser = await this.usersModel.findById(id);
-    if (!Object.keys(findUser).length) {
-      return 'user not found';
-    }
-    const updatedUser = await this.usersModel.findByIdAndUpdate(
-      id,
-      updateUser,
-      { new: true },
-    );
-    return updatedUser;
+    return this.userRepasitory.update(id, updateUser);
   }
 
   async remove(id: string): Promise<UpdateUserDto | string> {
-    const findUser = await this.usersModel.findById(id);
-    if (!Object.keys(findUser).length) {
-      return 'user not found';
-    }
-    const deletedUser = await this.usersModel.findByIdAndDelete(id);
-    return deletedUser;
+    return this.userRepasitory.remove(id);
   }
 }

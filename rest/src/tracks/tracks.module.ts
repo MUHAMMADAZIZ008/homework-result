@@ -3,12 +3,13 @@ import { TracksService } from './tracks.service';
 import { TracksController } from './tracks.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Tracks, TracksSchema } from './schema/tracks.schema';
+import { TracksRepository } from './track.repasitory';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tracks.name, schema: TracksSchema }]),
   ],
   controllers: [TracksController],
-  providers: [TracksService],
+  providers: [TracksRepository, TracksService],
 })
 export class TracksModule {}

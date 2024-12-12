@@ -1,43 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { InjectModel } from '@nestjs/mongoose';
 import { Artist } from './schema/artist.schema';
-import { Model } from 'mongoose';
+import { ArtistRepository } from './artist.repasitory';
 
 @Injectable()
 export class ArtistService {
-  constructor(@InjectModel(Artist.name) private artistModel: Model<Artist>) {}
+  constructor(
+    @Inject('artistRepository')
+    private readonly artistRepository: ArtistRepository,
+  ) {}
   async create(createArtist: CreateArtistDto): Promise<Artist> {
-    const newArtist = await this.artistModel.create(createArtist);
-    await newArtist.save();
-    return newArtist;
+    return this.artistRepository.create(createArtist);
   }
 
   async findAll(): Promise<Artist[]> {
-    const allArtist = await this.artistModel.find();
-    return allArtist;
+    return this.artistRepository.findAll();
   }
 
   async findOne(id: string): Promise<Artist> {
-    const artist = await this.artistModel.findById(id);
-    return artist;
+    return this.artistRepository.findOne(id);
   }
 
   async update(
     id: string,
     updateArtist: UpdateArtistDto,
   ): Promise<UpdateArtistDto> {
-    const updatedArtist = await this.artistModel.findByIdAndUpdate(
-      id,
-      updateArtist,
-      { new: true },
-    );
-    return updatedArtist;
+    return this.artistRepository.update(id, updateArtist);
   }
 
   async remove(id: string): Promise<UpdateArtistDto> {
-    const deleteUser = await this.artistModel.findByIdAndDelete(id);
-    return deleteUser;
+    return this.artistRepository.remove(id);
   }
 }
