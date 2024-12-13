@@ -17,5 +17,6 @@ import { UsersRopsitory } from './repasitory/user.repasitory';
     },
     UsersService,
   ],
+  exports: ['UserRpasitory'],
 })
 export class UsersModule {}

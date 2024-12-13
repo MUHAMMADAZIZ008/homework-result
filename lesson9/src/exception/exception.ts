@@ -11,3 +11,9 @@ export class AlreadyExsist extends HttpException {
     super(message, HttpStatus.BAD_REQUEST);
   }
 }
+
+export class NotFound extends HttpException {
+  constructor(readonly message: string) {
+    super(message, HttpStatus.NOT_FOUND);
+  }
+}

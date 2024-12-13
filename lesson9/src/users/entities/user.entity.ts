@@ -6,10 +6,10 @@ export class User {
   firstName: string;
 
   @Prop()
-  password: string;
+  lastName: string;
 
   @Prop()
-  lastNmae: string;
+  password: string;
 
   @Prop({
     unique: true,
