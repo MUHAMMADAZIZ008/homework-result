@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
+import { User, UserSchema } from './entities/user.entity';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './schema/user.schema';
-import { UsersRepository } from './repasitory';
+import { UsersRopsitory } from './repasitory/user.repasitory';
 
 @Module({
   imports: [
@@ -12,8 +12,8 @@ import { UsersRepository } from './repasitory';
   controllers: [UsersController],
   providers: [
     {
-      provide: 'UserRepasitory',
-      useClass: UsersRepository,
+      provide: 'UserRpasitory',
+      useClass: UsersRopsitory,
     },
     UsersService,
   ],
