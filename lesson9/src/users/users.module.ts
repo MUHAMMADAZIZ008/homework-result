@@ -4,10 +4,16 @@ import { UsersController } from './users.controller';
 import { User, UserSchema } from './entities/user.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersRopsitory } from './repasitory/user.repasitory';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    JwtModule.register({
+      global: true,
+      secret: 'qwert123',
+      signOptions: { expiresIn: '7d' },
+    }),
   ],
   controllers: [UsersController],
   providers: [

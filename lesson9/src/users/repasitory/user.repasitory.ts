@@ -1,21 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../entities/user.entity';
 import { AlreadyExsist, NotFound } from 'src/exception/exception';
-import { createHashPassword } from 'src/utils/bcrypt';
+import { copmareHashPassword, createHashPassword } from 'src/utils/bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersRopsitory {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<User> {
     const currentEmail = await this.userModel.find({
       email: createUserDto.email,
     });
+
     if (currentEmail.length) {
       throw new AlreadyExsist('email already exsist');
     }
@@ -63,5 +68,43 @@ export class UsersRopsitory {
       throw new NotFound('User not found!');
     }
     return deletedUser;
+  }
+
+  async register(newUser: User): Promise<string> {
+    type newType = User & { _id?: string };
+    const addUser: newType = await this.create(newUser);
+    return `you passed registration and this your id ${addUser._id}`;
+  }
+
+  async login(loginUser: UpdateUserDto): Promise<object> {
+    const currentUser = await this.userModel.find({
+      email: loginUser.email,
+    });
+    if (!currentUser.length) {
+      throw new ForbiddenException('email or passowrd is not true');
+    }
+    const isMatch = await copmareHashPassword(
+      loginUser.password,
+      currentUser[0].password,
+    );
+    if (!isMatch) {
+      throw new ForbiddenException('email or passowrd is not true');
+    }
+    const payload = {
+      id: currentUser[0].id,
+      email: currentUser[0].email,
+    };
+    const tokens = {
+      access_token: this.jwtService.sign(payload, {
+        secret: this.configService.get<string>('ACCESS_SECRET'),
+        expiresIn: this.configService.get<string>('ACCESS_TIME'),
+      }),
+
+      refresh_token: this.jwtService.sign(payload, {
+        secret: this.configService.get<string>('REFRESH_SECRET'),
+        expiresIn: this.configService.get<string>('REFRESH_TIME'),
+      }),
+    };
+    return tokens;
   }
 }

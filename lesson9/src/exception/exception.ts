@@ -17,3 +17,8 @@ export class NotFound extends HttpException {
     super(message, HttpStatus.NOT_FOUND);
   }
 }
+export class ForbiddenException extends HttpException {
+  constructor(readonly message: string) {
+    super(message, HttpStatus.FORBIDDEN);
+  }
+}
