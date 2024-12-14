@@ -93,6 +93,7 @@ export class UsersRopsitory {
     const payload = {
       id: currentUser[0].id,
       email: currentUser[0].email,
+      role: currentUser[0].role,
     };
     const tokens = {
       access_token: this.jwtService.sign(payload, {
