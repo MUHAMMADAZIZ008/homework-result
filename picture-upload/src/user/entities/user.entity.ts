@@ -1,13 +1,13 @@
 import {
   AutoIncrement,
   Column,
-  DataType,
-  Default,
+  // DataType,
+  // Default,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { UserActiveEnum, UserRoleEnum } from 'src/enums/user.enum';
+// import { UserActiveEnum, UserRoleEnum } from 'src/enums/user.enum';
 
 @Table({
   tableName: 'users',
@@ -21,7 +21,9 @@ export class User extends Model {
   @Column
   full_name: string;
 
-  @Column
+  @Column({
+    unique: true,
+  })
   email: string;
 
   @Column
@@ -30,17 +32,17 @@ export class User extends Model {
   @Column
   avatar: string;
 
-  @Column({
-    type: DataType.ENUM(...Object.values(UserActiveEnum)),
-    allowNull: false,
-  })
-  @Default(UserActiveEnum.INACTIVE)
-  isActive: UserActiveEnum;
+  // @Column({
+  //   type: DataType.ENUM(...Object.values(UserActiveEnum)),
+  //   allowNull: false,
+  // })
+  // @Default(UserActiveEnum.INACTIVE)
+  // isActive: UserActiveEnum;
 
-  @Column({
-    type: DataType.ENUM(...Object.values(UserRoleEnum)),
-    allowNull: false,
-  })
-  @Default(UserRoleEnum.USER)
-  role: UserRoleEnum;
+  // @Column({
+  //   type: DataType.ENUM(...Object.values(UserRoleEnum)),
+  //   allowNull: false,
+  // })
+  // @Default(UserRoleEnum.USER)
+  // role: UserRoleEnum;
 }

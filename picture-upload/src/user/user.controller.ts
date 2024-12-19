@@ -17,7 +17,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { LoggingInterceptor } from 'src/interceptor/user.interceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
