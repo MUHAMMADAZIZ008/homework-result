@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsStrongPassword } from 'class-validator';
+import { UserStatusEnum } from 'src/common/util/enum';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -22,4 +23,6 @@ export class CreateUserDto {
   })
   @IsStrongPassword()
   password: string;
+
+  status: UserStatusEnum;
 }

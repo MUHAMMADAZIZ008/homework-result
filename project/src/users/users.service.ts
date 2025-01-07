@@ -8,6 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
+import { UserStatusEnum } from 'src/common/util/enum';
 
 @Injectable()
 export class UsersService {
@@ -18,6 +19,9 @@ export class UsersService {
       email: createUserDto.email,
     });
     if (currnetUserEmail) {
+      if (currnetUserEmail.status === UserStatusEnum.INACTIVE) {
+        return currnetUserEmail;
+      }
       throw new BadRequestException('email alread exist');
     }
     const newUser = await this.userModel.create(createUserDto);
@@ -35,6 +39,10 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('user not found');
     }
+    return user;
+  }
+  async findByEmail(email: string) {
+    const user = await this.userModel.findOne({ email });
     return user;
   }
 
