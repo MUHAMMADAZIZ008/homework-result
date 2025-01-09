@@ -23,11 +23,6 @@ services:
       - mongodb
     networks:
       - app-network
-  postgres:
-    image: postgres
-    ports:
-      - 5463:5432
-    container_name: postgres
     networks:
       - app-network
 
