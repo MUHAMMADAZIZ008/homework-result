@@ -12,7 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/test'),
+    MongooseModule.forRoot('mongodb://mongodb:27017/test'),
     UsersModule,
     AuthModule,
     MailerModuleConfig,
