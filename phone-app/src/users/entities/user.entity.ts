@@ -28,7 +28,9 @@ export class User {
   })
   is_active: boolean;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   refresh_token: string;
 
   @Column({
