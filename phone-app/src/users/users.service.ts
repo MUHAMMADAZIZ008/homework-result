@@ -8,11 +8,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRedis() private readonly redis: Redis,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const userEmail = await this.userRepository.findOne({
@@ -30,12 +33,22 @@ export class UsersService {
     }
 
     const newUser = await this.userRepository.save(createUserDto);
+    await this.redis.set(String(newUser.id), JSON.stringify(newUser));
     return newUser;
   }
 
   async findAll() {
-    const allUser = await this.userRepository.find();
-    return allUser;
+    const redisKeys = await this.redis.keys('*');
+    if (redisKeys.length > 0) {
+      const users = await this.redis.mget(redisKeys);
+      return users.map((user) => JSON.parse(user));
+    } else {
+      const allUser = await this.userRepository.find();
+      allUser.forEach(async (user) => {
+        await this.redis.set(String(user.id), JSON.stringify(user));
+      });
+      return allUser;
+    }
   }
 
   async findOne(id: number) {
