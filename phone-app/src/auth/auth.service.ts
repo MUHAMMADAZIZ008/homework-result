@@ -13,9 +13,20 @@ export class AuthService {
   ) {}
 
   async register(registerAuthDto: RegisterAuthDto) {
-    await this.userService.create(registerAuthDto);
-    return 'welcom';
+    const newUser = await this.userService.create(registerAuthDto);
+
+    const payload: PayloadInterface = {
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+    };
+    const tokens = await this.generateToken.craeteAccessAndRefresh(payload);
+    await this.userService.update(newUser.id, {
+      refresh_token: tokens.refreshToken,
+    });
+    return tokens;
   }
+
   async login(loginAuthDto: LoginAuthDto) {
     const currnetUser = await this.userService.findByEmail(loginAuthDto.email);
     if (!currnetUser) {
