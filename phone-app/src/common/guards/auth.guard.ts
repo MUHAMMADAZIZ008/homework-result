@@ -1,34 +1,55 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
 import { GenerateJwtTokens } from '../tokens/token.provider';
-
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly tokenManage: GenerateJwtTokens) {}
-
-  canActivate(context: ExecutionContext) {
+  constructor(
+    private readonly tokenManage: GenerateJwtTokens,
+    private readonly reflecotr: Reflector,
+  ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPublic = this.reflecotr.get<boolean>(
+      'isPublic',
+      context.getHandler(),
+    );
+    if (isPublic) {
+      return true;
+    }
     const request = context.switchToHttp().getRequest();
-    return this.validateRequest(request);
+    const token = this.extractTokenFromHeader(request);
+
+    if (!token) {
+      throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
+    }
+    try {
+      const payload = await this.tokenManage.verifyAccessToken(token);
+
+      request['user'] = payload;
+    } catch {
+      throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
+    }
+    return true;
   }
 
-  private async validateRequest(request: any) {
-    const authHeader = request.headers['authorization'];
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return false;
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const authHeader = request.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedException('Authorization header is missing');
     }
 
-    const token = authHeader.split(' ')[1];
-
-    try {
-      const decoded = await this.tokenManage.verifyAccessToken(token);
-
-      if (!decoded) {
-        throw new Error();
-      }
-      request.user = decoded;
-      return true;
-    } catch {
-      return false;
+    const [type, token] = authHeader.split(' ');
+    if (type !== 'Bearer' || !token) {
+      throw new UnauthorizedException('Invalid token format');
     }
+
+    return token;
   }
 }
