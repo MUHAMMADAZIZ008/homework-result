@@ -1,6 +1,13 @@
-import { OrderStatus } from 'src/common/enum/order-status.enum';
+import { OrderProduct } from 'src/order-product/entities/order-product.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Order {
@@ -9,12 +16,16 @@ export class Order {
 
   @Column()
   total_price: number;
-  @Column({
-    type: 'enum',
-    enum: OrderStatus,
-    default: OrderStatus.NEW,
+
+  @Column({ nullable: true })
+  user_id: number;
+
+  @OneToOne(() => User, (user) => user.order, { eager: false })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => OrderProduct, (orderPorduct) => orderPorduct.orders, {
+    eager: false,
   })
-  status: OrderStatus;
-  @ManyToOne(() => User, (user) => user.orders, { eager: true })
-  user: User[];
+  orderPorduct: OrderProduct;
 }

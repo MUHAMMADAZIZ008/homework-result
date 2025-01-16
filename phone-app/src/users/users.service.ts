@@ -10,12 +10,14 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import Redis from 'ioredis';
+import { OrderService } from 'src/order/order.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRedis() private readonly redis: Redis,
+    private readonly orderService: OrderService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -34,6 +36,12 @@ export class UsersService {
     }
 
     const newUser = await this.userRepository.save(createUserDto);
+
+    await this.orderService.create({
+      user_id: newUser.id,
+      total_price: 0,
+    });
+
     await this.redis.set(`user:${String(newUser.id)}`, JSON.stringify(newUser));
     return newUser;
   }
