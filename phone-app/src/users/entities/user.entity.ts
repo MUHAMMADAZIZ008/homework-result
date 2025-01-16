@@ -1,5 +1,6 @@
 import { UserRoleEnum } from 'src/common/enum/user.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from 'src/order/entities/order.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -39,4 +40,7 @@ export class User {
     default: UserRoleEnum.USER,
   })
   role: UserRoleEnum;
+
+  @OneToMany(() => Order, (order) => order.user, { eager: true })
+  orders: Order[];
 }

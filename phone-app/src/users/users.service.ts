@@ -17,47 +17,57 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRedis() private readonly redis: Redis,
   ) {}
+
   async create(createUserDto: CreateUserDto) {
     const userEmail = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
     if (userEmail) {
-      throw new BadRequestException('email already existu!');
+      throw new BadRequestException('Email already exists!');
     }
 
     const userPhone = await this.userRepository.findOne({
       where: { phone: createUserDto.phone },
     });
     if (userPhone) {
-      throw new BadRequestException('phone already existu!');
+      throw new BadRequestException('Phone already exists!');
     }
 
     const newUser = await this.userRepository.save(createUserDto);
-    await this.redis.set(String(newUser.id), JSON.stringify(newUser));
+    await this.redis.set(`user:${String(newUser.id)}`, JSON.stringify(newUser));
     return newUser;
   }
 
   async findAll() {
-    const redisKeys = await this.redis.keys('*');
+    const redisKeys = await this.redis.keys('user:*');
     if (redisKeys.length > 0) {
       const users = await this.redis.mget(redisKeys);
       return users.map((user) => JSON.parse(user));
     } else {
-      const allUser = await this.userRepository.find();
-      allUser.forEach(async (user) => {
-        await this.redis.set(String(user.id), JSON.stringify(user));
-      });
-      return allUser;
+      const allUsers = await this.userRepository.find();
+      for (const user of allUsers) {
+        await this.redis.set(`user:${String(user.id)}`, JSON.stringify(user));
+      }
+      return allUsers;
     }
   }
 
   async findOne(id: number) {
+    const userKey = `user:${String(id)}`;
+    const cachedUser = await this.redis.get(userKey);
+
+    if (cachedUser) {
+      return JSON.parse(cachedUser);
+    }
+
     const user = await this.userRepository.findOne({
       where: { id },
     });
     if (!user) {
-      throw new NotFoundException('user not found!');
+      throw new NotFoundException('User not found!');
     }
+
+    await this.redis.set(userKey, JSON.stringify(user));
     return user;
   }
 
@@ -73,14 +83,29 @@ export class UsersService {
       where: { id },
     });
     if (!user) {
-      throw new NotFoundException('user not found!');
+      throw new NotFoundException('User not found!');
     }
-    const updatedUser = await this.userRepository.update({ id }, updateUserDto);
+
+    const updatedUser = { ...user, ...updateUserDto };
+    await this.redis.set(`user:${String(id)}`, JSON.stringify(updatedUser));
+    await this.userRepository.update({ id }, updateUserDto);
+
     return updatedUser;
   }
 
   async remove(id: number) {
-    await this.userRepository.delete({ id });
-    return 'user deleted';
+    const userKey = `user:${String(id)}`;
+    const cachedUser = await this.redis.get(userKey);
+
+    if (cachedUser) {
+      await this.redis.del(userKey);
+    }
+
+    const result = await this.userRepository.delete({ id });
+    if (result.affected === 0) {
+      throw new NotFoundException('User not found!');
+    }
+
+    return 'User deleted successfully';
   }
 }

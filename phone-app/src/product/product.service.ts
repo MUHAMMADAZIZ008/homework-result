@@ -15,16 +15,20 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     @InjectRedis() private readonly redis: Redis,
   ) {}
+
   async create(createProductDto: CreateProductDto) {
     const newProduct = await this.productRepository.save(createProductDto);
-    await this.redis.set(String(newProduct.id), JSON.stringify(newProduct));
+    await this.redis.set(
+      `product:${String(newProduct.id)}`,
+      JSON.stringify(newProduct),
+    );
     return newProduct;
   }
 
   async findAll(paginationValue: Pagination) {
     const { orderBy, offset, limit } = paginationValue;
 
-    const redisKeys = await this.redis.keys('*');
+    const redisKeys = await this.redis.keys('product:*');
 
     if (redisKeys.length > 0) {
       const paginatedKeys = redisKeys.slice(offset, offset + limit);
@@ -42,17 +46,22 @@ export class ProductService {
         order: { id: orderBy },
       });
 
-      const forRedis = await this.productRepository.find();
-      forRedis.forEach(async (product) => {
-        await this.redis.set(String(product.id), JSON.stringify(product));
-      });
+      // Redisga saqlash
+      const allProducts = await this.productRepository.find();
+      for (const product of allProducts) {
+        await this.redis.set(
+          `product:${String(product.id)}`,
+          JSON.stringify(product),
+        );
+      }
 
       return { products, total };
     }
   }
 
   async findOne(id: number) {
-    const product = await this.redis.get(String(id));
+    const productKey = `product:${String(id)}`;
+    const product = await this.redis.get(productKey);
     if (!product) {
       const productInPostgres = await this.productRepository.findOne({
         where: { id },
@@ -60,13 +69,10 @@ export class ProductService {
       if (!productInPostgres) {
         throw new NotFoundException('product not found');
       }
-      await this.redis.set(
-        String(productInPostgres.id),
-        JSON.stringify(productInPostgres),
-      );
+      await this.redis.set(productKey, JSON.stringify(productInPostgres));
       return productInPostgres;
     }
-    return product;
+    return JSON.parse(product);
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
@@ -76,16 +82,22 @@ export class ProductService {
     if (!productInPostgres) {
       throw new NotFoundException('product not found');
     }
+
+    // Redisni yangilash
+    const updatedProduct = { ...productInPostgres, ...updateProductDto };
     await this.redis.set(
-      String(productInPostgres.id),
-      JSON.stringify({ ...productInPostgres, ...updateProductDto }),
+      `product:${String(productInPostgres.id)}`,
+      JSON.stringify(updatedProduct),
     );
-    return this.productRepository.update({ id }, updateProductDto);
+
+    await this.productRepository.update({ id }, updateProductDto);
+    return updatedProduct;
   }
 
   async remove(id: number) {
-    const product = await this.redis.get(String(id));
-    if (product) await this.redis.del(String(id));
+    const productKey = `product:${String(id)}`;
+    const product = await this.redis.get(productKey);
+    if (product) await this.redis.del(productKey);
     return this.productRepository.delete({ id });
   }
 }
