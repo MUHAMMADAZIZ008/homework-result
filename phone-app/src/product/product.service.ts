@@ -6,6 +6,7 @@ import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import Redis from 'ioredis';
+import { Pagination } from 'src/common/decorators/pagination.dcorator';
 
 @Injectable()
 export class ProductService {
@@ -20,17 +21,32 @@ export class ProductService {
     return newProduct;
   }
 
-  async findAll() {
+  async findAll(paginationValue: Pagination) {
+    const { orderBy, offset, limit } = paginationValue;
+
     const redisKeys = await this.redis.keys('*');
-    if (redisKeys.length > 0) {
-      const products = await this.redis.mget(redisKeys);
-      return products.map((product) => JSON.parse(product));
+
+    if (redisKeys.length > 132154) {
+      const paginatedKeys = redisKeys.slice(offset, offset + limit);
+
+      const products = await this.redis.mget(paginatedKeys);
+
+      return {
+        products: products.map((product) => JSON.parse(product)),
+        total: redisKeys.length,
+      };
     } else {
-      const products = await this.productRepository.find();
+      const [products, total] = await this.productRepository.findAndCount({
+        skip: paginationValue.offset,
+        take: paginationValue.limit,
+        order: { id: orderBy },
+      });
+
       products.forEach(async (product) => {
         await this.redis.set(String(product.id), JSON.stringify(product));
       });
-      return products;
+
+      return { products, total };
     }
   }
 

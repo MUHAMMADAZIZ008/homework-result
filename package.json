@@ -18,11 +18,13 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@nestjs-modules/ioredis": "^2.0.2",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/config": "^3.3.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^4.21.1",
+    "ioredis": "^5.4.2",
     "mongoose": "^8.8.3"
   }
 }

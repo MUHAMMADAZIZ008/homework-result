@@ -13,6 +13,10 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
+import {
+  Pagination,
+  PaginationParams,
+} from 'src/common/decorators/pagination.dcorator';
 
 @UseGuards(AuthGuard)
 @UseGuards(RolesGuard)
@@ -26,8 +30,10 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  findAll(@PaginationParams() pagination: Pagination) {
+    const paginationValue = pagination;
+
+    return this.productService.findAll(paginationValue);
   }
 
   @Get(':id')
