@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { ProductModule } from './product/product.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ProductModule } from './product/product.module';
     UsersModule,
     AuthModule,
     ProductModule,
+    OrderModule,
   ],
 })
 export class AppModule {}

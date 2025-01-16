@@ -26,7 +26,7 @@ export class ProductService {
 
     const redisKeys = await this.redis.keys('*');
 
-    if (redisKeys.length > 132154) {
+    if (redisKeys.length > 0) {
       const paginatedKeys = redisKeys.slice(offset, offset + limit);
 
       const products = await this.redis.mget(paginatedKeys);
@@ -42,7 +42,8 @@ export class ProductService {
         order: { id: orderBy },
       });
 
-      products.forEach(async (product) => {
+      const forRedis = await this.productRepository.find();
+      forRedis.forEach(async (product) => {
         await this.redis.set(String(product.id), JSON.stringify(product));
       });
 
