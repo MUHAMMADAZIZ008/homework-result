@@ -1,3 +1,4 @@
+import { OrderStatus } from 'src/common/enum/order-status.enum';
 import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/product/entities/product.entity';
 import {
@@ -26,4 +27,14 @@ export class OrderProduct {
   @OneToMany(() => Product, (product) => product.orderPorduct)
   @JoinColumn({ name: 'product_id' })
   products: Product[];
+
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.NEW,
+  })
+  status: OrderStatus;
+
+  @Column()
+  product_quantity: number;
 }

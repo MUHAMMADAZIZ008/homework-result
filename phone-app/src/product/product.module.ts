@@ -9,5 +9,6 @@ import { GenerateJwtModule } from 'src/common/tokens/token.module';
   imports: [TypeOrmModule.forFeature([Product]), GenerateJwtModule],
   controllers: [ProductController],
   providers: [ProductService],
+  exports: [ProductService],
 })
 export class ProductModule {}

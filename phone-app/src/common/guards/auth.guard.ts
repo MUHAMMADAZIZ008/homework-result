@@ -9,6 +9,7 @@ import {
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { GenerateJwtTokens } from '../tokens/token.provider';
+import { IS_PUBLIC_KEY } from '../decorators/auth.decorator';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -17,7 +18,7 @@ export class AuthGuard implements CanActivate {
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflecotr.get<boolean>(
-      'isPublic',
+      IS_PUBLIC_KEY,
       context.getHandler(),
     );
     if (isPublic) {
