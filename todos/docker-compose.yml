@@ -1,0 +1,39 @@
+networks:
+  todos-network:
+
+services:
+  postgres-db:
+    container_name: todos-db
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3636
+    networks:
+      - todos-network
+    volumes:
+      - todos-volume:/var/lib/postgresql/data
+    ports:
+      - "5436:5432"
+    restart: unless-stopped
+
+  backend-app:
+    container_name: todos-app
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres-db
+    env_file:
+      - .env
+    networks:
+      - todos-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    command: npm run start:dev
+
+volumes:
+  todos-volume:
