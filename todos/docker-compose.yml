@@ -4,13 +4,11 @@ networks:
 services:
   postgres-db:
     container_name: todos-db
-    image: postgres:alpine
+    image: postgres
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 3636
-    networks:
-      - todos-network
     volumes:
       - todos-volume:/var/lib/postgresql/data
     ports:
@@ -21,14 +19,14 @@ services:
     container_name: todos-app
     build:
       context: .
+    environment:
+      - DATABASE_URL=postgresql://postgres:3636@postgres-db:5432/postgres
     ports:
       - "3000:3000"
     depends_on:
       - postgres-db
     env_file:
       - .env
-    networks:
-      - todos-network
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules

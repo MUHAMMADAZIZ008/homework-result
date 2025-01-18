@@ -4,20 +4,29 @@ FROM node:20
 # Create app directory
 WORKDIR /usr/src/app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
-COPY pnpm-lock.yaml ./
-# Install app dependencies
-RUN npm install pnpm -g
-RUN pnpm install
+# Copy package manager files
+COPY package.json pnpm-lock.yaml ./
 
-# Bundle app source
+# Copy .env file
+COPY .env .env
+
+# Install pnpm globally and app dependencies
+RUN npm install pnpm -g \
+    && pnpm install --frozen-lockfile
+
+# Copy application source code
 COPY . .
-# Creates a "dist" folder with the production build
+
+# Run Prisma migrations for production
 RUN npx prisma migrate dev --name init
+# Build the production-ready application
 RUN npm run build
-# Expose the port on which the app will run
+RUN RUN chown -R node:node /usr/src/app
+# Expose the application port
 EXPOSE 3000
 
-# Start the server using the production build
-CMD ["npm", "run", "start:dev"]
+# Use non-root user for running the app
+USER node
+
+# Start the application`
+CMD ["sudo", "npm", "run", "start"]

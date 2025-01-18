@@ -13,7 +13,19 @@ export class UsersService {
   }
 
   async findAll(): Promise<Users[]> {
-    const allUser = await this.prismaService.users.findMany();
+    const allUser = await this.prismaService.users.findMany({
+      include: {
+        todos: {
+          select: {
+            id: true,
+            task: true,
+            userId: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
     return allUser;
   }
 
