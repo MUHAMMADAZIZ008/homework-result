@@ -14,11 +14,15 @@ datasource db {
 }
 
 model Users {
-  id       Int     @id @default(autoincrement())
-  fullname String?
-  email    String  @unique
-  passowrd String
-  todos    Todos[]
+  id         Int     @id @default(autoincrement())
+  fullname   String?
+  username   String?
+  email      String  @unique
+  passowrd   String?
+  provider   String?
+  providerId String? @unique
+  picture    String?
+  todos      Todos[]
 }
 
 model Todos {
