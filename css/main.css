@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,10 +14,16 @@
   padding: 0 20px;
 }
 
+body {
+  font-family: "Roboto", serif;
+}
+
 header {
   border-bottom: 2px solid #e6f3fe;
 }
-
+button {
+  cursor: pointer;
+}
 .header__inner {
   display: flex;
   align-items: center;
@@ -297,7 +305,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 2px solid #56acf8;
+    border: 2px solid #56adf8b6;
     border-radius: 6px;
 }
 .signUp__input {
@@ -314,4 +322,88 @@ header {
     background-color: #0082f4;
     border-radius: 6px;
     color: #fff;
+}
+
+/* footer */
+footer {
+  padding: 60px 0 0 0;
+}
+.footer__head {
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+.footer__head-box {
+  display: flex;font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  color: #000;
+  flex-direction: column;
+  gap: 15px;
+}
+.footer_head_link {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  color: #000;
+}
+
+.footer__head_list-box {
+  width: 80%;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.footer__head_list {
+  width: 30%;
+  display: grid;
+  gap: 20px;
+}
+.footer__head__title {
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 150%;
+  color: #000;
+}
+.footer__head_link {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  color: #0000008c;
+}
+
+
+
+.footer__bottom {
+  padding: 34px 0;
+  background: linear-gradient(180deg, #058aff 0%, rgba(57, 55, 206, 0.87) 62.83%);
+}
+.footer__bottom_inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__bottom-text {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 150%;
+  color: #fff
+}
+.footer__bottom-social_box {
+  width: 342px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer_bottom_button {
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 400;
+  font-size: 20px;
+  color: #3c61e1;
 }
