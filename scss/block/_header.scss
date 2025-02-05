@@ -1,0 +1,25 @@
+header {
+    padding: 15px 0;
+}
+.header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.header__link {
+    font-weight: 400;
+font-size: 18px;
+color: #1f1534;
+}
+.header__link:hover {
+    font-weight: 700;
+font-size: 18px;
+color: #1f1534;
+}
