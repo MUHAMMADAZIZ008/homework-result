@@ -1,0 +1,25 @@
+header {
+    padding-top: 50px;
+}
+
+.header__inner {
+    @include center_line;
+}
+.header__nav_bar {
+    @include center_line;
+    gap: 80px;
+}
+.header__list {
+    gap: 40px;
+    @include center_line;
+}
+.header__link {
+    font-weight: 600;
+font-size: 18px;
+line-height: 156%;
+color: $white;
+}
+
+.header__btn {
+    @include btn
+}

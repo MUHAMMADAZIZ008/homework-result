@@ -1,0 +1,66 @@
+.directors {
+    padding: 140px 0;
+    background-color: $green__light;
+}
+.directors__title {
+    font-weight: 700;
+font-size: 48px;
+line-height: 100%;
+text-align: center;
+color: $white;
+margin-bottom: 64px;
+}
+
+.directors__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    column-gap: 30px;
+    row-gap: 50px;
+}
+.directors__box{
+    position: relative;
+    background-color: $green__bold;
+}
+.directors__img_box {
+    padding-top: 32px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+.directors__name_box {
+    display: grid;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+.directors__box_name {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 156%;
+    text-align: center;
+    color: $btn_color;
+}
+.directors__box_job {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 167%;
+    text-align: center;
+    color: $white;
+}
+
+.directors__box_btn {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background-color: $belt__color;
+    border-radius: 100%;
+    border: none;
+    font-size: 30px;
+    font-weight: 900;
+    color: $footer__green;
+    bottom: 0;
+    left: 50%;
+    margin-left: -27px;    
+    margin-bottom: -27px;
+}

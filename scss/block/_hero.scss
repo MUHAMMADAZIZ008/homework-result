@@ -1,43 +1,31 @@
 .hero {
-  padding: 84px 0 176px 0;
+    background-image: url('../../images/bg1.svg');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    padding: 120px 0;
 }
+
 .hero__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.hero__content_box {
-  max-width: 450px;
+    gap: 188px;
+    @include center_line
 }
 .hero__title {
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 117%;
-  color: #000;
-  margin-bottom: 35px;
+    font-weight: 700;
+font-size: 64px;
+line-height: 156%;
+color: $white;
+}
+
+.hero__box {
+    display: grid;
+    gap: 40px;
+}
+.hero__line {
+    @include line($belt__color)
 }
 .hero__text {
-    font-weight: 300;
-font-size: 21px;
-line-height: 152%;
-color: #7d7987;
-margin-bottom: 35px;
-}
-
-.hero__btn {
-    padding: 15px 40px;
-    border: none;
-    background-color: #458FF6;
-    border-radius: 55px;
-    font-weight: 700;
+    font-weight: 600;
 font-size: 18px;
-line-height: 150%;
-color: #fff;
-}
-
-.hero__img_box {
-    max-width: 693px;
-}
-.hero__img {
-    width: 100%;
+line-height: 156%;
+color: $white;
 }

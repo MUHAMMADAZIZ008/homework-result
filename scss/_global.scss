@@ -4,7 +4,7 @@
     padding: 0;
 }
 .container {
-    max-width: 1120px;
+    max-width: 1110px;
     margin: 0 auto;
 }
 ul, ol {
@@ -14,7 +14,8 @@ a {
     text-decoration: none;
 }
 body {
-    font-family: "Mulish", serif;
+    font-family: "Livvic", serif;
+    background-color: $body_color;
 }
 button {
     cursor: pointer;
