@@ -1,4 +1,7 @@
 .directors {
+    background-image: url('../../images/bg3.svg'), url('../../images/bg4.svg');
+    background-position: left top, right bottom;
+    background-repeat: no-repeat;
     padding: 140px 0;
     background-color: $green__light;
 }

@@ -1,0 +1,21 @@
+.clients {
+    padding: 140px 0;
+    background-color: $green__bold;
+    background-image: url('../../images/bg5.svg');
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+.clients__title {
+    text-align: center;
+    margin-bottom: 64px;
+    font-weight: 700;
+font-size: 48px;
+line-height: 100%;
+text-align: center;
+color: $white;
+}
+
+.clients__inner {
+    @include center_line
+}
