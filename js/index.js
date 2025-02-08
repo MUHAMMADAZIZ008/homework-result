@@ -51,3 +51,11 @@ showBtn.forEach((btn, index) => {
 })
 
 
+// burger brn
+const home__header__burger = document.querySelector('.home__header__burger');
+const home__header_burger_btn = document.querySelector('.home__header_burger_btn');
+
+home__header_burger_btn.addEventListener('click', () => {
+    home__header_burger_btn.classList.toggle('home__header_burger_btn_click');
+    home__header__burger.classList.toggle('home__header__burger_on_click');
+});

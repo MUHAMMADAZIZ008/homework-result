@@ -1,0 +1,44 @@
+.home__started{
+    padding: 76px 0;
+    background-color: $belt__color;
+    background-image: url('../../images/bg6.svg');
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+
+.home__started_title {
+    width: 200px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 24px;
+}
+.home__started_btn {
+    display: block;
+    @include btn;
+    border-color: $green__bold;
+    color: $green__bold;
+    margin: 0 auto;
+}
+@media screen and (min-width: 600px) {
+    .home__started_inner {
+        @include center_line;
+    }
+    .home__started_title {
+        width: auto;
+        margin: 0;
+    }
+    .home__started_btn {
+        margin: 0;
+    }
+}
+@media screen and (min-width: 900px) {
+    .home__started_title {
+        font-size: 40px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .home__started_title {
+        font-size: 48px;
+    }
+}

@@ -1,0 +1,133 @@
+.home__header {
+    position: relative;
+    padding-top: 48px;
+}
+.home__header_inner {
+    @include center_line;
+}
+.home__header__burger {
+    @include center_line;
+}
+
+.home__header__burger {
+    background-image: url('../images/bg7.svg');
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    transition: all 0.3s ease;
+    padding: 56px 25px 0 48px;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70vw;
+    background-color: $burger_card_color;
+    z-index: 10;
+    display: block;
+}
+
+.home__header_list {
+    margin-bottom: 36px;
+    display: grid;
+    gap: 24px;
+}
+.home__header_link {
+    font-weight: 600;
+font-size: 18px;
+line-height: 156%;
+color: $white;
+}
+.home_header_btn {
+    @include btn;
+    display: block;
+}
+.home__header_burger_btn {
+    z-index: 20;
+    transition: all 0.3s ease;
+    position: relative;
+    width: 25px;
+    height: 20px;
+    background-color: transparent;
+    display: grid;
+    border: none;
+    gap: 3px;
+    span {
+        position: absolute;
+        width: 100%;
+        display: block;
+        height: 3px;
+        background-color: $white;
+        &:nth-child(1) {
+            top: 0;
+        }
+        &:nth-child(2) {
+            margin-top: -1.5px;
+            top: 50%;
+        }
+        &:nth-child(3) {
+            bottom: 0;
+        }
+    }
+}
+
+// header burger action
+.home__header__burger_on_click {
+    right: 0;
+}
+
+.home__header_burger_btn_click {
+    transition: all 0.3s ease;
+    span:nth-child(2) {
+        opacity: 0;
+
+    }
+    span:nth-child(1), span:nth-child(3){
+        top: 50%;
+        left: 50%;
+        transform-origin: center;
+    }
+    span:nth-child(1) {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+    span:nth-child(3) {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+}
+
+
+// responsible
+@media screen and (min-width: 756px) {
+    .home__header_burger_btn {
+        display: none;
+    }
+    .home__header__burger {
+        width: 70%;
+        padding: 0;
+        position: static;
+        height: auto;
+        background-image: none;
+        @include center_line;
+        background-color: transparent;
+    }
+    .home__header_list {
+        @include center_line;
+        height: auto;
+        margin: 0;
+    }
+    .home__header_link {
+        font-weight: 600;
+font-size: 18px;
+line-height: 156%;
+color: #fff;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .home__header__burger {
+        width: 80%;
+    }
+}
+@media screen and (min-width: 1110px) {
+    .container {
+        max-width: 1150px;
+    }
+}
