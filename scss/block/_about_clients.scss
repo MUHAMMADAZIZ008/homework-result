@@ -18,5 +18,11 @@ color: $white;
 }
 
 .clients__inner {
-    @include center_line
+    @include center_line;
+    flex-wrap: wrap;
+    gap: 54px;
+}
+.clients__img_box {
+    margin: 0 auto;
+    display: block;
 }
