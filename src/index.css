@@ -19,3 +19,6 @@ a {
 body {
   font-family: "Be Vietnam Pro", serif;
 }
+button {
+  cursor: pointer;
+}

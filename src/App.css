@@ -34,3 +34,89 @@ margin-bottom: 40px;
 .hero__img {
   width: 100%;
 }
+
+/* manage section */
+.manage {
+  padding-bottom: 165px;
+}
+
+.manage__inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.manage__title {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 110%;
+  letter-spacing: -0.02em;
+  color: #242d52;
+  margin-bottom: 24px;
+}
+
+.manage__text {
+  max-width: 350px;
+  font-weight: 400;
+font-size: 16px;
+line-height: 162%;
+color: #242d52;
+opacity: 0.5;
+}
+.manage__card--box {
+  max-width: 540px;
+}
+
+
+
+/* said section */
+.said {
+  padding-bottom: 161px;
+}
+.said__title {
+font-weight: 700;
+font-size: 40px;
+line-height: 110%;
+letter-spacing: -0.02em;
+text-align: center;
+color: #242d52;
+margin-bottom: 60px;
+}
+.said__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 53px;
+  gap: 30px;
+}
+.said__btn--box {
+  text-align: center;
+}
+
+/* simplify section */
+.simplify {
+  padding: 62px 0;
+  background-color: #f3603c;
+}
+.simplify__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.simplify__title {
+  max-width: 500px;
+  font-weight: 700;
+font-size: 40px;
+line-height: 110%;
+letter-spacing: -0.02em;
+color: #fff;
+}
+.simplify__btn {
+  padding: 15px 32px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #f3603c;
+  background-color: #fff;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+}
