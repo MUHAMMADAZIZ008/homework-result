@@ -9,7 +9,7 @@ request.interceptors.request.use((config) => {
     console.log('go');
     return config
 })
-request.interceptors.response((config) =>{
+request.interceptors.response.use((config) =>{
     console.log('come');
     return config
 })
