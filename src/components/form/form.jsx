@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { TodoContext } from "../../context/todo-context/todo-context";
+import { todoActions } from "../../context/todo-context/todo-reducer";
+import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
 
-const Form = () => {
+const Form = ({ defValue }) => {
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: { title: defValue?.title, des: defValue?.des  } });
+  const { data, dispatch } = useContext(TodoContext);
 
   const submit = (data) => {
-    console.log(data);
+    if(!defValue) {
+      dispatch({ type: todoActions.ADD_TODO, value: { id: nanoid(), ...data } });
+    } else {
+      dispatch({type: todoActions.UPDATE_TODO, value: {...data, id: defValue.id}})
+    }
+    navigate("/");
   };
 
   return (
@@ -49,7 +60,9 @@ const Form = () => {
             </p>
           )}
         </div>
-        <button className="bg-[#3674B5] text-white px-[40px] py-[12px] font-bold text-[20px] rounded-[8px]">send</button>
+        <button className="bg-[#3674B5] text-white mt-[20px] px-[40px] py-[12px] font-bold text-[20px] rounded-[8px]">
+          send
+        </button>
       </form>
     </>
   );

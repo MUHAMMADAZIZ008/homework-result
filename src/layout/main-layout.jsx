@@ -7,7 +7,7 @@ const MainLayout = () => {
     <div className="flex">
       <div className="w-[300px] bg-blue-900 h-screen text-2xl flex items-start justify-self-start pl-[50px] pt-[100px] ">
         <div>
-          <Link className="text-[#F2EFE7] font-semibold text-3xl" to={"/"}>
+          <Link className="text-[#F2EFE7] font-semibold text-3xl" to={"/create-todo"}>
             Crate task
           </Link>
         </div>
