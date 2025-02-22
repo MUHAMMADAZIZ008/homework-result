@@ -27,5 +27,18 @@ export const theme = createTheme({
             lineHeight: '130%',
             color: COLORS.titleColor,
         }
+    },
+    components: {
+        MuiIconButton: {
+            defaultProps: {
+                disableRipple: true,
+            },
+            styleOverrides: {
+                root: {
+                    padding: 0,
+                    transition: "none",
+                }
+            }
+        }
     }
 })

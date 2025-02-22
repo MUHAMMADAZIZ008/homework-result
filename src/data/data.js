@@ -1,20 +1,21 @@
-import sectionImg from '../assets/section-img1.png'
+import sectionImg from '../assets/section-img1.png';
 
 export const data = [
     {
         id: 1,
         category: "Новинка",
         label: "Новинка",
-        name: "Aster Q893A LIVZON LIVZON",
+        name: "Aster Q893A LIVZON LIVZON",  
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
+        reviews: 0,
         current_price: "160.000 ₸",
         installment_plan: "13.333 ₸ x 12 мес",
         old_price: null,
         discounted_price: null,
         img: sectionImg,
-        rating: 5
+        rating: 5,
+        quantity: 10
     },
     {
         id: 2,
@@ -23,13 +24,14 @@ export const data = [
         name: "Aster Q893A LIVZON LIVZON",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: "160.000 ₸",
+        reviews: 0,
+        current_price: "156.000 ₸",
         installment_plan: "13.333 ₸ x 12 мес",
         old_price: null,
         discounted_price: null,
         img: sectionImg,
-        rating: 4
+        rating: 4,
+        quantity: 20
     },
     {
         id: 3,
@@ -38,13 +40,14 @@ export const data = [
         name: "Aster Q893A LIVZON LIVZON",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: "160.000 ₸",
+        reviews: 0,
+        current_price: "1489.000 ₸",
         installment_plan: "13.333 ₸ x 12 мес",
         old_price: null,
         discounted_price: null,
         img: sectionImg,
-        rating: 3
+        rating: 3,
+        quantity: 30
     },
     {
         id: 4,
@@ -53,13 +56,14 @@ export const data = [
         name: "Aster Q893A LIVZON LIVZON",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: "160.000 ₸",
+        reviews: 0,
+        current_price: "123.000 ₸",
         installment_plan: "13.333 ₸ x 12 мес",
         old_price: null,
         discounted_price: null,
         img: sectionImg,
-        rating: 2
+        rating: 2,
+        quantity: 40
     },
     {
         id: 5,
@@ -68,13 +72,14 @@ export const data = [
         name: "Aster Q893A LIVZON LIVZON",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: null,
+        reviews: 0,
+        current_price: "1000 ₸",
         installment_plan: null,
-        old_price: "160.000 ₸",
+        old_price: "1239.000 ₸",
         discounted_price: "100.000 ₸",
         img: sectionImg,
-        rating: 5
+        rating: 5,
+        quantity: 50
     },
     {
         id: 6,
@@ -83,13 +88,14 @@ export const data = [
         name: "Venetta Q983A CREAM LIVZON",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: null,
+        reviews: 0,
+        current_price: "1000 ₸",
         installment_plan: null,
-        old_price: "160.000 ₸",
+        old_price: "321.000 ₸",
         discounted_price: "100.000 ₸",
         img: sectionImg,
-        rating: 4
+        rating: 4,
+        quantity: 60
     },
     {
         id: 7,
@@ -98,13 +104,14 @@ export const data = [
         name: "Venetta F059B CREAM NAVY",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: null,
+        reviews: 0,
+        current_price: "1000 ₸",
         installment_plan: null,
-        old_price: "160.000 ₸",
+        old_price: "100 ₸",
         discounted_price: "100.000 ₸",
         img: sectionImg,
-        rating: 3
+        rating: 3,
+        quantity: 70
     },
     {
         id: 8,
@@ -113,12 +120,13 @@ export const data = [
         name: "Aster Q893A LIVZON LIVZON",
         dimensions: "60x100",
         origin: "Казахстан",
-        reviews: "0 отзывов",
-        current_price: null,
-        installment_plan: null,
-        old_price: "160.000 ₸",
+        reviews: 0,
+        current_price: "1000 ₸",
+        installment_plan: "1000 ₸",
+        old_price: "1000 ₸",
         discounted_price: "100.000 ₸",
         img: sectionImg,
-        rating: 2
+        rating: 2,
+        quantity: 80
     }
 ];

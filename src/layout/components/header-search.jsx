@@ -17,7 +17,7 @@ const HeaderSearch = () => {
       <Link>
         <img src={logo} alt="img" />
       </Link>
-      <Stack alignItems={"center"} direction={"row"}>
+      <Stack alignItems={"center"} direction={"row"} gap={'8px'}>
         <IconButton>
           <LocationIcon />
         </IconButton>
