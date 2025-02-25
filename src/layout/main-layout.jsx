@@ -9,13 +9,6 @@ import { loadState } from "../config/storage";
 const { Header, Sider, Content } = Layout;
 
 const menu = items.map((item, index) => {
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    const user = loadState("user");
-    if (!user) {
-      navigate("/");
-    }
-  }, []);
   return {
     key: index,
     icon: React.createElement(item.icon),
@@ -31,7 +24,13 @@ const menu = items.map((item, index) => {
 
 export const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
-
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    const user = loadState("user");
+    if (!user) {
+      navigate("/app");
+    }
+  }, []);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
