@@ -7,11 +7,11 @@ export default [
     comp: UserList,
   },
   {
-    path: "/create-user",
+    path: "create-user",
     comp: CreatePage,
   },
   {
-    path: "/update-user/:id",
+    path: "update-user/:id",
     comp: UpdatePage,
   }
 ];

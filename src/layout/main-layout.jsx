@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import { items } from "./layout-data";
+import { loadState } from "../config/storage";
 
 const { Header, Sider, Content } = Layout;
 
 const menu = items.map((item, index) => {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    const user = loadState("user");
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
   return {
     key: index,
     icon: React.createElement(item.icon),
